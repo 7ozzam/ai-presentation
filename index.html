@@ -1,0 +1,2777 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The Leverage Gap | AI Strategy Presentation</title>
+    <meta
+      name="description"
+      content="A cinematic presentation exploring the leverage gap between those who use AI and those who master it."
+    />
+    <meta property="og:title" content="The Leverage Gap" />
+    <meta
+      property="og:description"
+      content="Tools ≠ Advantage. Leverage = Advantage."
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&family=Outfit:wght@400;500;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Alexandria:wght@400;500;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      :root {
+        --bg: #050508;
+        --text: #f0ede6;
+        --white: #f0ede6;
+        --black: #050508;
+        --red: #e8341a;
+        --amber: #f5a623;
+        --dim: rgba(255, 255, 255, 0.12);
+        --muted: rgba(255, 255, 255, 0.7);
+        --glass: rgba(255, 255, 255, 0.05);
+        --pop: rgba(10, 10, 12, 0.98);
+        /* Control surface tokens */
+        --ctrl-bg: rgba(255, 255, 255, 0.06);
+        --ctrl-border: rgba(255, 255, 255, 0.12);
+        --ctrl-text: rgba(255, 255, 255, 0.75);
+        --ctrl-hover-bg: rgba(255, 255, 255, 0.14);
+        --ctrl-hover-border: rgba(255, 255, 255, 0.3);
+        /* Slide surface tokens */
+        --slide-card-bg: rgba(255, 255, 255, 0.02);
+        --slide-card-hover: rgba(255, 255, 255, 0.04);
+        --slide-card-hover-red: rgba(232, 52, 26, 0.08);
+        --slide-input-track: rgba(255, 255, 255, 0.1);
+        --slide-s10-bg: #100a08;
+        --menu-item-hover-border: rgba(255, 255, 255, 0.2);
+        --menu-item-hover-bg: rgba(255, 255, 255, 0.05);
+        --lang-toggle-bg: rgba(0, 0, 0, 0.2);
+        --lang-toggle-border: rgba(255, 255, 255, 0.05);
+        --settings-btn-open-bg: rgba(255, 255, 255, 0.08);
+        --frac-line-color: var(--white);
+      }
+      body.light-mode {
+        --bg: #f5f5f7;
+        --text: #1d1d1f;
+        --white: #f5f5f7;
+        --black: #1d1d1f;
+        --dim: rgba(0, 0, 0, 0.12);
+        --muted: rgba(0, 0, 0, 0.7);
+        --glass: rgba(0, 0, 0, 0.05);
+        --pop: rgba(255, 255, 255, 0.98);
+        /* Control surface tokens */
+        --ctrl-bg: rgba(0, 0, 0, 0.05);
+        --ctrl-border: rgba(0, 0, 0, 0.12);
+        --ctrl-text: rgba(0, 0, 0, 0.65);
+        --ctrl-hover-bg: rgba(0, 0, 0, 0.1);
+        --ctrl-hover-border: rgba(0, 0, 0, 0.25);
+        /* Slide surface tokens — light overrides */
+        --slide-card-bg: rgba(0, 0, 0, 0.02);
+        --slide-card-hover: rgba(0, 0, 0, 0.03);
+        --slide-card-hover-red: rgba(232, 52, 26, 0.05);
+        --slide-input-track: rgba(0, 0, 0, 0.1);
+        --slide-s10-bg: #f0e8e4;
+        --menu-item-hover-border: rgba(0, 0, 0, 0.15);
+        --menu-item-hover-bg: rgba(0, 0, 0, 0.04);
+        --lang-toggle-bg: rgba(0, 0, 0, 0.06);
+        --lang-toggle-border: rgba(0, 0, 0, 0.1);
+        --settings-btn-open-bg: rgba(0, 0, 0, 0.06);
+        --frac-line-color: var(--black);
+      }
+
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        min-height: 100vh;
+        background: var(--bg);
+        color: var(--text);
+        font-family: "DM Mono", monospace;
+        overflow: hidden;
+        cursor: none;
+        font-display: swap;
+      }
+
+      /* Force true fullscreen fill */
+      #deck {
+        position: fixed !important;
+        inset: 0 !important;
+        width: 100vw !important;
+        height: 100vh !important;
+      }
+
+      /* Custom cursor */
+      .cursor {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 10px;
+        height: 10px;
+        background: var(--red);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9999;
+        transform: translate(-50%, -50%);
+        transition:
+          width 0.2s,
+          height 0.2s,
+          background 0.2s;
+        mix-blend-mode: difference;
+      }
+      .cursor.big {
+        width: 40px;
+        height: 40px;
+      }
+
+      /* Deck wrapper */
+      #deck {
+        position: fixed;
+        inset: 0;
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+      }
+
+      /* Slides */
+      .slide {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: clamp(40px, 6vw, 100px) clamp(40px, 8vw, 120px);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.05s;
+        overflow: hidden;
+      }
+      .slide.active {
+        opacity: 1;
+        pointer-events: all;
+      }
+
+      /* Scan-line overlay */
+      .slide::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 2px,
+          rgba(0, 0, 0, 0.08) 2px,
+          rgba(0, 0, 0, 0.08) 4px
+        );
+        pointer-events: none;
+        z-index: 10;
+      }
+
+      /* Noise texture */
+      .noise {
+        position: fixed;
+        inset: 0;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");
+        pointer-events: none;
+        z-index: 11;
+        opacity: 0.5;
+      }
+
+      /* ===================== TYPOGRAPHY ===================== */
+      .mega {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: clamp(80px, 14vw, 200px);
+        line-height: 0.92;
+        letter-spacing: -0.02em;
+        text-transform: uppercase;
+      }
+      .mega.red {
+        color: var(--red);
+      }
+      .mega.amber {
+        color: var(--amber);
+      }
+
+      .super {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: clamp(48px, 8vw, 120px);
+        line-height: 1;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+      }
+
+      .label {
+        font-family: "DM Mono", monospace;
+        font-size: 14px;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+
+      .body-text {
+        font-family: "Outfit", sans-serif;
+        font-size: clamp(18px, 2.5vw, 32px);
+        line-height: 1.4;
+        font-weight: 400;
+        color: var(--text);
+        opacity: 0.85;
+      }
+
+      .quote {
+        font-family: "Outfit", sans-serif;
+        font-size: clamp(22px, 3vw, 42px);
+        line-height: 1.35;
+        font-weight: 400;
+        max-width: 800px;
+        text-align: center;
+      }
+      .quote em {
+        color: var(--red);
+        font-weight: 700;
+        font-style: normal;
+      }
+
+      .mono-sm {
+        font-family: "DM Mono", monospace;
+        font-size: 13px;
+        letter-spacing: 0.1em;
+        color: var(--muted);
+      }
+
+      /* ===================== LAYOUT UTILS ===================== */
+      .left {
+        align-items: flex-start;
+      }
+      .center {
+        align-items: center;
+        text-align: center;
+      }
+      .gap-sm {
+        gap: 16px;
+      }
+      .gap-md {
+        gap: 32px;
+      }
+      .gap-lg {
+        gap: 56px;
+      }
+
+      /* ===================== DECORATIVE ===================== */
+      .redline {
+        width: 60px;
+        height: 4px;
+        background: var(--red);
+        margin: 16px 0;
+      }
+      .redline.lg {
+        width: 120px;
+      }
+
+      .chapter-tag {
+        position: absolute;
+        top: 40px;
+        left: 80px;
+        font-family: "DM Mono", monospace;
+        font-size: 11px;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+
+      .slide-num {
+        position: absolute;
+        bottom: clamp(16px, 2.5vh, 40px);
+        left: calc(clamp(20px, 4vw, 80px) + 50px);
+        font-family: "DM Mono", monospace;
+        font-size: 11px;
+        letter-spacing: 0.2em;
+        color: var(--dim);
+        z-index: 20;
+      }
+
+      /* ===================== SLIDE BACKGROUNDS ===================== */
+      /* S1 — hero slide */
+      #s1 {
+        background: var(--bg);
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+      }
+      #s1 .bg-word {
+        position: absolute;
+        font-family: "Bebas Neue", sans-serif;
+        font-size: 42vw;
+        line-height: 1;
+        color: rgba(232, 52, 26, 0.06);
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        white-space: nowrap;
+        user-select: none;
+      }
+
+      /* S2 — grid layout */
+      #s2 {
+        background: var(--bg);
+      }
+      #s2 .grid-bg {
+        position: absolute;
+        inset: 0;
+        background-image:
+          linear-gradient(rgba(232, 52, 26, 0.06) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(232, 52, 26, 0.06) 1px, transparent 1px);
+        background-size: 60px 60px;
+      }
+      #s2 .split {
+        display: flex;
+        gap: 0;
+        align-items: stretch;
+        width: 100%;
+        max-width: 1100px;
+        position: relative;
+        border: 1px solid var(--dim);
+        background: var(--slide-card-bg);
+      }
+      #s2 .col {
+        flex: 1;
+        padding: clamp(40px, 5vw, 80px);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        transition: background 0.4s ease;
+      }
+      #s2 .col.left-col {
+        border-right: 1px solid var(--dim);
+      }
+      #s2 .col.right-col {
+        background: rgba(232, 52, 26, 0.03);
+      }
+      #s2 .col:hover {
+        background: var(--slide-card-hover);
+      }
+      #s2 .col.right-col:hover {
+        background: var(--slide-card-hover-red);
+      }
+
+      #s2 .vs-circle {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 60px;
+        height: 60px;
+        background: var(--bg);
+        border: 1px solid var(--red);
+        color: var(--red);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "Bebas Neue", sans-serif;
+        font-size: 24px;
+        z-index: 5;
+        border-radius: 50%;
+        box-shadow: 0 0 30px rgba(232, 52, 26, 0.2);
+      }
+      #s2 .col-label {
+        font-family: "DM Mono", monospace;
+        font-size: 11px;
+        letter-spacing: 0.4em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin-bottom: 20px;
+      }
+      #s2 .col-text {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: clamp(40px, 6vw, 80px);
+        line-height: normal;
+        color: var(--text);
+      }
+      #s2 .col.right-col .col-text {
+        color: var(--red);
+        text-shadow: 0 0 20px rgba(232, 52, 26, 0.3);
+      }
+
+      /* S3 — reality check — inverse slide */
+      #s3 {
+        background: var(--text);
+      }
+      #s3 * {
+        color: var(--bg) !important;
+      }
+      #s3 .redline {
+        background: var(--black);
+        opacity: 0.3;
+      }
+      #s3 .muted {
+        color: var(--bg) !important;
+        opacity: 0.6;
+      }
+      /* Ensure slide-num is readable on inverse */
+      #s3 .slide-num {
+        color: var(--bg) !important;
+        opacity: 0.5;
+      }
+
+      /* S4 — trap slide — amber accent */
+      #s4 {
+        background: var(--bg);
+      }
+      #s4 .loop {
+        display: flex;
+        gap: 0;
+        align-items: center;
+        margin-top: 24px;
+      }
+      #s4 .loop-item {
+        border: 1px solid var(--dim);
+        padding: 14px 28px;
+        font-family: "DM Mono", monospace;
+        font-size: 13px;
+        letter-spacing: 0.1em;
+        color: var(--muted);
+      }
+      #s4 .loop-arrow {
+        font-size: 18px;
+        color: var(--dim);
+        margin: 0 4px;
+      }
+
+      /* S5 — fake progress bar */
+      #s5 {
+        background: var(--bg);
+      }
+      #s5 .bar-wrap {
+        width: 600px;
+        max-width: 80vw;
+        height: 8px;
+        background: var(--dim);
+        border-radius: 0;
+        margin-top: 40px;
+        position: relative;
+        overflow: visible;
+      }
+      #s5 .bar-fill {
+        height: 100%;
+        background: var(--amber);
+        width: 0;
+        animation: fillBar 3s ease-out infinite;
+      }
+      #s5 .bar-label {
+        position: absolute;
+        top: 20px;
+        right: 0;
+        font-family: "DM Mono", monospace;
+        font-size: 11px;
+        color: var(--amber);
+        letter-spacing: 0.15em;
+        animation: countUp 3s ease-out infinite;
+      }
+      @keyframes fillBar {
+        0% {
+          width: 0;
+        }
+        80% {
+          width: 92%;
+        }
+        100% {
+          width: 92%;
+        }
+      }
+      @keyframes countUp {
+        0% {
+          opacity: 0;
+        }
+        20% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 1;
+        }
+      }
+
+      /* S6 — Tools ≠ Advantage */
+      #s6 {
+        background: var(--bg);
+      }
+      #s6 .eq-row {
+        display: flex;
+        align-items: center;
+        gap: 32px;
+      }
+      #s6 .eq-sym {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: clamp(60px, 10vw, 140px);
+        color: var(--red);
+        line-height: 1;
+      }
+
+      /* S7 — Leverage = Advantage */
+      #s7 {
+        background: var(--bg);
+      }
+      #s7 .chart {
+        display: flex;
+        align-items: flex-end;
+        gap: 12px;
+        height: 120px;
+        margin-top: 40px;
+      }
+      #s7 .bar {
+        background: var(--dim);
+        flex: 1;
+        animation: riseBar 0.6s ease-out forwards;
+        opacity: 0;
+      }
+      #s7 .bar:nth-child(1) {
+        animation-delay: 0.1s;
+      }
+      #s7 .bar:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+      #s7 .bar:nth-child(3) {
+        animation-delay: 0.3s;
+      }
+      #s7 .bar:nth-child(4) {
+        animation-delay: 0.4s;
+        background: var(--amber);
+      }
+      #s7 .bar:nth-child(5) {
+        animation-delay: 0.5s;
+        background: var(--amber);
+      }
+      #s7 .bar:nth-child(6) {
+        animation-delay: 0.6s;
+        background: var(--red);
+      }
+      @keyframes riseBar {
+        from {
+          opacity: 0;
+          transform: scaleY(0);
+          transform-origin: bottom;
+        }
+        to {
+          opacity: 1;
+          transform: scaleY(1);
+          transform-origin: bottom;
+        }
+      }
+
+      /* S8 — Definition */
+      #s8 {
+        background: var(--bg);
+      }
+      #s8 .formula {
+        display: flex;
+        align-items: center;
+        gap: 24px;
+        border: 1px solid var(--dim);
+        padding: 40px 60px;
+        margin-top: 32px;
+        background: var(--slide-card-bg);
+      }
+      #s8 .frac {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0;
+        font-family: "Bebas Neue", sans-serif;
+        font-size: clamp(28px, 4vw, 56px);
+      }
+      #s8 .frac-line {
+        width: 100%;
+        height: 2px;
+        background: var(--frac-line-color);
+        margin: 4px 0;
+      }
+      #s8 .frac-top {
+        color: var(--red);
+      }
+      #s8 .frac-bot {
+        color: var(--muted);
+      }
+      #s8 .f-eq {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: clamp(40px, 6vw, 80px);
+        color: var(--dim);
+      }
+      #s8 .f-result {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: clamp(40px, 6vw, 80px);
+        color: var(--amber);
+      }
+
+      /* S9 — Problem: Scaling */
+      #s9 {
+        background: var(--bg);
+        align-items: center;
+        text-align: center;
+      }
+      #s9 .chaos {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        max-width: 700px;
+        margin-top: 40px;
+        opacity: 0.5;
+      }
+      #s9 .chaos-item {
+        border: 1px solid var(--dim);
+        padding: 10px 18px;
+        font-family: "DM Mono", monospace;
+        font-size: 12px;
+        color: var(--muted);
+        transform: rotate(calc((var(--r) - 2) * 1.5deg));
+      }
+
+      /* S10 — Wrong */
+      #s10 {
+        background: var(--slide-s10-bg);
+      }
+      #s10 .wrong-grid {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 16px;
+        margin-top: 40px;
+        opacity: 0.6;
+      }
+      #s10 .ai-badge {
+        border: 1px solid rgba(232, 52, 26, 0.3);
+        padding: 12px;
+        text-align: center;
+        font-family: "DM Mono", monospace;
+        font-size: 10px;
+        letter-spacing: 0.1em;
+        color: rgba(232, 52, 26, 0.5);
+      }
+
+      /* S11 — Right: Fix bottleneck */
+      #s11 {
+        background: var(--bg);
+      }
+      #s11 .flow {
+        display: flex;
+        align-items: center;
+        gap: 0;
+        margin-top: 48px;
+        position: relative;
+      }
+      #s11 .f-node {
+        border: 1px solid var(--dim);
+        padding: 20px 28px;
+        font-family: "DM Mono", monospace;
+        font-size: 12px;
+        letter-spacing: 0.1em;
+        color: var(--muted);
+      }
+      #s11 .f-node.highlight {
+        border-color: var(--red);
+        color: var(--red);
+        background: rgba(232, 52, 26, 0.08);
+        position: relative;
+      }
+      #s11 .f-arrow {
+        width: 40px;
+        height: 2px;
+        background: var(--dim);
+        position: relative;
+      }
+      #s11 .f-arrow::after {
+        content: "▶";
+        position: absolute;
+        right: -4px;
+        top: -8px;
+        color: var(--dim);
+        font-size: 10px;
+      }
+      #s11 .highlight-label {
+        position: absolute;
+        top: -32px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-family: "DM Mono", monospace;
+        font-size: 9px;
+        letter-spacing: 0.25em;
+        color: var(--red);
+        white-space: nowrap;
+      }
+      .slide.ar #s11 .f-arrow {
+        transform: scaleX(-1);
+      }
+
+      /* S12 — Before/After */
+      #s12 {
+        background: var(--bg);
+      }
+      #s12 .metrics {
+        display: flex;
+        gap: 80px;
+        margin-top: 48px;
+      }
+      #s12 .metric {
+        text-align: center;
+      }
+      #s12 .m-num {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: clamp(56px, 10vw, 120px);
+        line-height: 1;
+      }
+      #s12 .m-num.before {
+        color: var(--muted);
+      }
+      #s12 .m-num.after {
+        color: var(--red);
+      }
+      #s12 .m-label {
+        font-family: "DM Mono", monospace;
+        font-size: 11px;
+        letter-spacing: 0.2em;
+        color: var(--muted);
+        text-transform: uppercase;
+        margin-top: 8px;
+      }
+      #s12 .divider {
+        width: 1px;
+        background: var(--dim);
+        align-self: stretch;
+      }
+
+      /* S13 — Framework */
+      #s13 {
+        background: var(--bg);
+      }
+      #s13 .flow3 {
+        display: flex;
+        align-items: center;
+        gap: 0;
+        margin-top: 56px;
+      }
+      #s13 .f3-item {
+        padding: 28px 48px;
+        border: 1px solid;
+        text-align: center;
+      }
+      #s13 .f3-item:nth-child(1) {
+        border-color: var(--dim);
+      }
+      #s13 .f3-item:nth-child(3) {
+        border-color: var(--amber);
+      }
+      #s13 .f3-item:nth-child(5) {
+        border-color: var(--red);
+        background: rgba(232, 52, 26, 0.08);
+      }
+      #s13 .f3-word {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: clamp(28px, 4vw, 52px);
+        letter-spacing: 0.05em;
+      }
+      #s13 .f3-item:nth-child(5) .f3-word {
+        color: var(--red);
+      }
+      #s13 .f3-item:nth-child(3) .f3-word {
+        color: var(--amber);
+      }
+      #s13 .f3-sub {
+        font-family: "DM Mono", monospace;
+        font-size: 10px;
+        letter-spacing: 0.2em;
+        color: var(--muted);
+        margin-top: 4px;
+      }
+      #s13 .f3-arr {
+        font-size: 20px;
+        color: var(--dim);
+        padding: 0 8px;
+      }
+      .slide.ar #s13 .f3-arr {
+        transform: scaleX(-1);
+        display: inline-block;
+      }
+
+      /* S14 — Challenge */
+      #s14 {
+        background: var(--text);
+      }
+      #s14 * {
+        color: var(--bg) !important;
+      }
+      #s14 .redline {
+        background: var(--black);
+        opacity: 0.3;
+      }
+      #s14 .slide-num {
+        color: var(--bg) !important;
+        opacity: 0.5;
+      }
+      #s14 .eye {
+        position: absolute;
+        bottom: 60px;
+        right: 80px;
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        background: var(--bg);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      #s14 .eye::after {
+        content: "";
+        width: 24px;
+        height: 24px;
+        background: var(--text);
+        border-radius: 50%;
+      }
+
+      /* S15 — Closing */
+      #s15 {
+        background: var(--bg);
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+      }
+      #s15 .diverge {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 50%;
+        height: 100%;
+        pointer-events: none;
+      }
+      #s15 .path-a {
+        position: absolute;
+        bottom: 0;
+        right: 80px;
+        width: 2px;
+        height: 50%;
+        background: linear-gradient(to top, var(--red), transparent);
+        transform-origin: bottom;
+        transform: rotate(-10deg);
+      }
+      #s15 .path-b {
+        position: absolute;
+        bottom: 0;
+        right: 80px;
+        width: 2px;
+        height: 30%;
+        background: linear-gradient(to top, var(--dim), transparent);
+        transform-origin: bottom;
+        transform: rotate(10deg);
+      }
+
+      /* Nav dots */
+      #nav {
+        position: fixed;
+        bottom: clamp(16px, 2.5vh, 32px);
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        z-index: 100;
+        direction: ltr;
+      }
+
+      /* Progress line */
+      #progress {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 2px;
+        background: var(--red);
+        z-index: 100;
+        transition: width 0.4s ease;
+      }
+
+      /* Nav Dots */
+      .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--ctrl-bg);
+        border: 1px solid var(--ctrl-border);
+        cursor: pointer;
+        transition:
+          background 0.3s,
+          transform 0.3s,
+          border-color 0.3s;
+        backdrop-filter: blur(4px);
+      }
+      .dot.on {
+        background: var(--red);
+        border-color: var(--red);
+        transform: scale(1.4);
+      }
+      .dot:hover:not(.on) {
+        background: var(--ctrl-hover-bg);
+        border-color: var(--ctrl-hover-border);
+      }
+
+      /* Arrows */
+      #arrows {
+        position: fixed;
+        bottom: clamp(16px, 2.5vh, 32px);
+        right: clamp(20px, 4vw, 80px);
+        display: flex;
+        gap: 8px;
+        z-index: 100;
+        direction: ltr;
+      }
+      .arr-btn {
+        width: 38px;
+        height: 38px;
+        border: 1px solid var(--ctrl-border);
+        background: var(--ctrl-bg);
+        backdrop-filter: blur(12px);
+        color: var(--ctrl-text);
+        font-size: 14px;
+        cursor: pointer;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition:
+          border-color 0.25s,
+          color 0.25s,
+          background 0.25s;
+      }
+      .arr-btn:hover {
+        border-color: var(--red);
+        color: var(--red);
+        background: rgba(232, 52, 26, 0.08);
+      }
+
+      /* Transition flash */
+      #flash {
+        position: fixed;
+        inset: 0;
+        background: var(--white);
+        pointer-events: none;
+        z-index: 50;
+        opacity: 0;
+        transition: opacity 0.08s;
+      }
+      #flash.on {
+        opacity: 0.06;
+      }
+
+      /* Animate in text when slide becomes active */
+      .slide.active .anim {
+        animation: slideUp 0.5s ease-out forwards;
+        opacity: 0;
+      }
+      .slide.active .anim:nth-child(1) {
+        animation-delay: 0s;
+      }
+      .slide.active .anim:nth-child(2) {
+        animation-delay: 0.08s;
+      }
+      .slide.active .anim:nth-child(3) {
+        animation-delay: 0.16s;
+      }
+      .slide.active .anim:nth-child(4) {
+        animation-delay: 0.24s;
+      }
+      .slide.active .anim:nth-child(5) {
+        animation-delay: 0.32s;
+      }
+      @keyframes slideUp {
+        from {
+          opacity: 0;
+          transform: translateY(18px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Glitch Effect during Language Switch */
+      @keyframes glitch {
+        0% {
+          transform: translate(0);
+          text-shadow: none;
+        }
+        20% {
+          transform: translate(-2px, 2px);
+          text-shadow:
+            2px 0 var(--red),
+            -2px 0 #0ff;
+        }
+        40% {
+          transform: translate(-2px, -2px);
+          text-shadow:
+            -2px 0 var(--red),
+            2px 0 #0ff;
+        }
+        60% {
+          transform: translate(2px, 2px);
+          text-shadow:
+            2px 0 var(--red),
+            -2px 0 #0ff;
+        }
+        80% {
+          transform: translate(2px, -2px);
+          text-shadow:
+            -2px 0 var(--red),
+            2px 0 #0ff;
+        }
+        100% {
+          transform: translate(0);
+          text-shadow: none;
+        }
+      }
+      .lang-switching #deck {
+        animation: glitch 0.2s linear infinite;
+        filter: brightness(1.2) contrast(1.1);
+      }
+
+      /* Scanline sweep */
+      #scanline {
+        position: fixed;
+        inset: 0;
+        background: linear-gradient(
+          to bottom,
+          transparent,
+          rgba(232, 52, 26, 0.2),
+          transparent
+        );
+        height: 100px;
+        width: 100%;
+        top: -100px;
+        z-index: 1000;
+        pointer-events: none;
+        opacity: 0;
+      }
+      #scanline.active {
+        animation: scanSweep 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        opacity: 1;
+      }
+      @keyframes scanSweep {
+        0% {
+          top: -100px;
+        }
+        100% {
+          top: 100vh;
+        }
+      }
+
+      /* Hint label — top left */
+      #hint {
+        position: fixed;
+        top: clamp(22px, 3vh, 38px);
+        left: clamp(20px, 4vw, 80px);
+        font-family: "DM Mono", monospace;
+        font-size: 10px;
+        letter-spacing: 0.2em;
+        color: var(--ctrl-text);
+        z-index: 100;
+        text-transform: uppercase;
+        background: var(--ctrl-bg);
+        border: 1px solid var(--ctrl-border);
+        backdrop-filter: blur(12px);
+        padding: 6px 12px;
+        border-radius: 20px;
+      }
+
+      /* ===================== SETTINGS MENU ===================== */
+      #settingsMenu {
+        position: fixed;
+        top: clamp(20px, 4vh, 40px);
+        right: calc(clamp(20px, 4vw, 80px) + 56px);
+        z-index: 500;
+        display: flex;
+        flex-direction: row-reverse;
+        align-items: center;
+        direction: ltr;
+      }
+      #mainSettingsBtn {
+        width: 44px;
+        height: 44px;
+        background: var(--ctrl-bg);
+        backdrop-filter: blur(15px);
+        border: 1px solid var(--ctrl-border);
+        border-radius: 50%;
+        color: var(--ctrl-text);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+        z-index: 2;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+        position: relative;
+      }
+      .main-timer-svg {
+        position: absolute;
+        top: -1px;
+        left: -1px;
+        width: 44px;
+        height: 44px;
+        pointer-events: none;
+        transform: rotate(-90deg);
+      }
+      .main-timer-path {
+        stroke: var(--amber);
+        stroke-width: 2px;
+        fill: none;
+        stroke-dasharray: 132; /* 2 * PI * 21 */
+        stroke-dashoffset: 132;
+        transition: stroke 0.3s;
+      }
+      #settingsMenu.open #mainSettingsBtn {
+        border-color: var(--red);
+        transform: rotate(45deg);
+        background: var(--settings-btn-open-bg);
+      }
+      #menuContent {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding-right: 20px;
+        opacity: 0;
+        pointer-events: none;
+        transform: translateX(40px) scale(0.95);
+        transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+      }
+      #settingsMenu.open #menuContent {
+        opacity: 1;
+        pointer-events: all;
+        transform: translateX(0) scale(1);
+      }
+
+      /* Shared styling for menu items */
+      .menu-item {
+        height: 34px;
+        background: var(--glass);
+        backdrop-filter: blur(20px);
+        border: 1px solid var(--dim);
+        border-radius: 17px;
+        display: flex;
+        align-items: center;
+        padding: 0 14px;
+        color: var(--dim);
+        font-family: "DM Mono", monospace;
+        font-size: 9px;
+        letter-spacing: 0.05em;
+        transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+        cursor: pointer;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      }
+      .menu-item:hover {
+        border-color: var(--menu-item-hover-border);
+        background: var(--menu-item-hover-bg);
+        color: var(--text);
+      }
+
+      /* Sync Button Styling */
+      #autoLang.menu-item {
+        gap: 10px;
+        min-width: 80px;
+        position: relative;
+      }
+      #autoLang.active {
+        border-color: var(--amber);
+        color: var(--amber);
+        background: rgba(255, 191, 0, 0.03);
+      }
+      .timer-svg {
+        width: 14px;
+        height: 14px;
+      }
+      .timer-path {
+        stroke: var(--amber);
+        stroke-dasharray: 44;
+        stroke-dashoffset: 44;
+        transition: stroke 0.3s;
+      }
+
+      /* Language Switcher Styling */
+      #langToggle.menu-item {
+        padding: 2px;
+        width: 80px;
+        background: var(--lang-toggle-bg);
+        border-color: var(--lang-toggle-border);
+      }
+      .lang-opt {
+        flex: 1;
+        height: 100%;
+        border: none;
+        background: transparent;
+        color: var(--dim);
+        font-size: 10px;
+        font-family: "Bebas Neue", sans-serif;
+        font-weight: 400;
+        letter-spacing: 1px;
+        z-index: 1;
+        cursor: pointer;
+        transition: color 0.3s;
+      }
+      .lang-opt.active {
+        color: var(--white);
+      }
+      #langSlider {
+        position: absolute;
+        top: 2px;
+        bottom: 2px;
+        left: 2px;
+        width: calc(50% - 2px);
+        background: var(--red);
+        border-radius: 15px;
+        box-shadow: 0 2px 8px rgba(255, 75, 75, 0.3);
+        transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+      }
+
+      /* Sync Settings Popover Refinement */
+      #syncSettings {
+        position: absolute;
+        top: 42px;
+        right: 0;
+        background: var(--pop);
+        border: 1px solid var(--dim);
+        border-radius: 12px;
+        padding: 14px;
+        width: 210px;
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+        cursor: default;
+        z-index: 600;
+      }
+      .s-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 12px;
+        color: var(--muted);
+        font-size: 10px;
+        font-family: "DM Mono", monospace;
+      }
+      .s-row:last-child {
+        margin-bottom: 0;
+      }
+      .s-btn {
+        background: var(--slide-card-bg);
+        border: 1px solid var(--dim);
+        color: var(--muted);
+        padding: 4px 10px;
+        font-size: 9px;
+        cursor: pointer;
+        border-radius: 6px;
+        transition: all 0.2s;
+        font-family: "DM Mono", monospace;
+      }
+      .s-btn:hover {
+        background: var(--slide-card-hover);
+        color: var(--text);
+      }
+      .s-btn.active {
+        background: var(--red);
+        color: #fff;
+        border-color: var(--red);
+      }
+
+      input[type="range"] {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 80px;
+        height: 2px;
+        background: var(--slide-input-track);
+        outline: none;
+      }
+      input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 10px;
+        height: 10px;
+        background: var(--red);
+        border-radius: 50%;
+        cursor: pointer;
+      }
+      #autoLang.active {
+        border-color: var(--amber);
+        color: var(--white);
+        box-shadow: 0 0 15px rgba(245, 166, 35, 0.2);
+      }
+      #autoLang .timer-svg {
+        width: 14px;
+        height: 14px;
+        transform: rotate(-90deg);
+      }
+      #autoLang .timer-path {
+        fill: none;
+        stroke: var(--amber);
+        stroke-width: 2;
+        stroke-dasharray: 44;
+        stroke-dashoffset: 44;
+      }
+      #autoLang.active .timer-path {
+        stroke-opacity: 1; /* Dummy property to fix empty ruleset lint */
+      }
+      @keyframes autoTime {
+        from {
+          stroke-dashoffset: 44;
+        }
+        to {
+          stroke-dashoffset: 0;
+        }
+      }
+      @keyframes mainAutoTime {
+        from {
+          stroke-dashoffset: 132;
+        }
+        to {
+          stroke-dashoffset: 0;
+        }
+      }
+      #langToggle:hover {
+        border-color: var(--red);
+        box-shadow: 0 0 20px rgba(232, 52, 26, 0.15);
+      }
+      .lang-opt {
+        padding: 6px 16px;
+        font-family: "DM Mono", monospace;
+        font-size: 10px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--muted);
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        transition: color 0.3s;
+        position: relative;
+        z-index: 1;
+        font-weight: 500;
+      }
+      .lang-opt.active {
+        color: var(--white);
+      }
+      #langSlider {
+        position: absolute;
+        top: 2px;
+        bottom: 2px;
+        left: 2px;
+        width: calc(50% - 2px);
+        background: var(--red);
+        border-radius: 18px;
+        transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 0;
+      }
+      body.ar #langSlider {
+        transform: translateX(100%);
+      }
+      body.en #langSlider {
+        transform: translateX(0%);
+      }
+
+      /* ===================== LANG ANIMATION ===================== */
+      @keyframes textFadeOut {
+        from {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+          filter: blur(0);
+        }
+        to {
+          opacity: 0;
+          transform: translateY(-12px) scale(0.97);
+          filter: blur(4px);
+        }
+      }
+      @keyframes textFadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(14px) scale(0.97);
+          filter: blur(4px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+          filter: blur(0);
+        }
+      }
+      .lang-switching [data-i18n] {
+        opacity: 0;
+        filter: blur(8px);
+        transform: translateY(-5px);
+        transition: all 0.3s ease-in;
+      }
+      .lang-switched [data-i18n] {
+        opacity: 1;
+        filter: blur(0);
+        transform: translateY(0);
+      }
+
+      /* ===================== NEW THEME TOGGLE ===================== */
+      #themeToggleBtn {
+        position: fixed;
+        top: clamp(20px, 4vh, 40px);
+        right: clamp(20px, 4vw, 80px);
+        width: 44px;
+        height: 44px;
+        background: var(--ctrl-bg);
+        backdrop-filter: blur(15px);
+        border: 1px solid var(--ctrl-border);
+        border-radius: 50%;
+        color: var(--ctrl-text);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+        z-index: 500;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+      }
+      #themeToggleBtn svg {
+        width: 20px;
+        height: 20px;
+      }
+      #themeToggleBtn:hover {
+        background: var(--ctrl-hover-bg);
+        border-color: var(--ctrl-hover-border);
+      }
+      body.light-mode #themeToggleBtn .sun-icon {
+        display: none;
+      }
+      body.light-mode #themeToggleBtn .moon-icon {
+        display: block !important;
+      }
+
+      /* ===================== FULLSCREEN BUTTON ===================== */
+      #btnFullscreen {
+        position: fixed;
+        bottom: clamp(16px, 2.5vh, 32px);
+        left: clamp(20px, 4vw, 80px);
+        width: 38px;
+        height: 38px;
+        border: 1px solid var(--ctrl-border);
+        background: var(--ctrl-bg);
+        backdrop-filter: blur(12px);
+        color: var(--ctrl-text);
+        font-size: 14px;
+        cursor: pointer;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition:
+          border-color 0.25s,
+          color 0.25s,
+          background 0.25s;
+        z-index: 100;
+        fill: currentColor;
+      }
+      #btnFullscreen svg {
+        width: 18px;
+        height: 18px;
+        fill: currentColor;
+      }
+      #btnFullscreen:hover {
+        border-color: var(--red);
+        color: var(--red);
+        background: rgba(232, 52, 26, 0.08);
+      }
+
+      /* ===================== SMART UI INVERSION ===================== */
+      body.invert-ui #mainSettingsBtn,
+      body.invert-ui #themeToggleBtn,
+      body.invert-ui #btnFullscreen {
+        background: rgba(0, 0, 0, 0.04);
+        border-color: rgba(0, 0, 0, 0.15);
+        color: var(--bg);
+      }
+      body.light-mode.invert-ui #mainSettingsBtn,
+      body.light-mode.invert-ui #themeToggleBtn,
+      body.light-mode.invert-ui #btnFullscreen {
+        background: rgba(255, 255, 255, 0.08);
+        border-color: rgba(255, 255, 255, 0.2);
+        color: var(--bg);
+      }
+      body.invert-ui #mainSettingsBtn:hover,
+      body.invert-ui #themeToggleBtn:hover,
+      body.invert-ui #btnFullscreen:hover {
+        background: rgba(0, 0, 0, 0.1);
+      }
+      body.light-mode.invert-ui #mainSettingsBtn:hover,
+      body.light-mode.invert-ui #themeToggleBtn:hover,
+      body.light-mode.invert-ui #btnFullscreen:hover {
+        background: rgba(255, 255, 255, 0.15);
+      }
+
+      body.invert-ui #hint {
+        color: var(--bg);
+        opacity: 0.8;
+      }
+      body.invert-ui .slide-num {
+        color: var(--bg);
+        opacity: 0.6;
+      }
+
+      body.invert-ui .dot {
+        background: rgba(0, 0, 0, 0.2);
+      }
+      body.light-mode.invert-ui .dot {
+        background: rgba(255, 255, 255, 0.3);
+      }
+      body.invert-ui .dot.on {
+        background: var(--red);
+      }
+
+      body.invert-ui #langToggle {
+        background: rgba(0, 0, 0, 0.05);
+        border-color: rgba(0, 0, 0, 0.1);
+      }
+      body.light-mode.invert-ui #langToggle {
+        background: rgba(255, 255, 255, 0.1);
+        border-color: rgba(255, 255, 255, 0.2);
+      }
+      body.invert-ui .lang-opt {
+        color: var(--bg);
+      }
+      body.invert-ui .lang-opt.active {
+        color: var(--text);
+      }
+      body.invert-ui #langSlider {
+        background: var(--bg);
+      }
+
+      body.invert-ui #menuContent {
+        background: var(--text);
+        border-color: rgba(0, 0, 0, 0.1);
+      }
+      body.invert-ui #menuContent span {
+        color: var(--bg);
+      }
+      body.invert-ui .s-btn {
+        color: var(--bg);
+        border-color: rgba(0, 0, 0, 0.2);
+      }
+      body.invert-ui .s-btn.active {
+        background: var(--bg);
+        color: var(--text);
+      }
+      body.invert-ui #s-time {
+        filter: invert(1);
+      }
+
+      /* ===================== ARABIC / RTL ===================== */
+
+      /* 1. Slide direction */
+      .slide.ar {
+        direction: rtl;
+      }
+
+      /* 2. Alexandria for all text in Arabic slides */
+      .slide.ar,
+      .slide.ar *,
+      body.ar #hint,
+      body.ar #langToggle {
+        font-family: "Alexandria", sans-serif !important;
+        letter-spacing: 0 !important;
+        text-transform: none !important;
+      }
+
+      /* 3. Arabic type scale (scoped to slide) */
+      .slide.ar .mega {
+        font-weight: 800;
+        font-size: clamp(52px, 8.5vw, 130px);
+        line-height: 1.35;
+      }
+      .slide.ar .super {
+        font-weight: 700;
+        font-size: clamp(38px, 6vw, 90px);
+        line-height: 1.45;
+      }
+      .slide.ar .label {
+        font-weight: 500;
+        font-size: 18px;
+        line-height: 1.6;
+      }
+      .slide.ar .body-text {
+        font-style: normal;
+        font-weight: 400;
+        line-height: 1.9;
+      }
+      .slide.ar .quote {
+        font-style: normal;
+        font-weight: 400;
+        line-height: 1.8;
+      }
+      .slide.ar .mono-sm {
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 1.6;
+      }
+      .slide.ar .col-text {
+        font-weight: 700;
+        font-size: clamp(28px, 4.5vw, 60px);
+        line-height: 1.4;
+      }
+      .slide.ar .col-label {
+        font-weight: 400;
+        font-size: 11px;
+      }
+      .slide.ar .f3-word {
+        font-weight: 700;
+      }
+      .slide.ar .f3-sub {
+        font-weight: 400;
+        font-size: 12px;
+      }
+      .slide.ar .loop-item {
+        font-weight: 400;
+        font-size: 15px;
+      }
+      .slide.ar .chaos-item {
+        font-weight: 400;
+        font-size: 13px;
+      }
+      .slide.ar .f-node {
+        font-weight: 500;
+        font-size: 14px;
+      }
+      .slide.ar .highlight-label {
+        font-weight: 700;
+        font-size: 10px;
+      }
+      .slide.ar .m-label {
+        font-weight: 500;
+        font-size: 13px;
+      }
+
+      /* 4. Slide alignment */
+      .slide.ar.left {
+        align-items: flex-end;
+        text-align: right;
+      }
+      .slide.ar.center {
+        text-align: center;
+      }
+
+      /* ===================== ENGLISH / LTR (Scoped) ===================== */
+      .slide.en {
+        direction: ltr;
+      }
+      .slide.en.left {
+        align-items: flex-start;
+        text-align: left;
+      }
+      .slide.en.center {
+        text-align: center;
+      }
+
+      /* 5. Fixed UI remains in place — removed mirroring */
+
+      /* 6. Arrows remain in original direction — removed mirroring */
+
+      /* 13. S5 bar-label: LTR bar — keep label anchored correctly */
+      body.ar #s5 .bar-label {
+        right: 0;
+        left: auto;
+      }
+
+      /* 14. Progress bar: always LTR */
+      #progress {
+        direction: ltr;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="cursor" id="cursor"></div>
+    <div class="noise"></div>
+    <div id="flash"></div>
+    <div id="progress"></div>
+    <div id="scanline"></div>
+
+    <div id="hint" data-i18n="hint">→ ARROW KEYS TO ADVANCE</div>
+
+    <!-- Theme Toggle (top-left, beside hint) -->
+    <button id="themeToggleBtn" title="Toggle Theme">
+      <svg
+        class="sun-icon"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <circle cx="12" cy="12" r="5"></circle>
+        <line x1="12" y1="1" x2="12" y2="3"></line>
+        <line x1="12" y1="21" x2="12" y2="23"></line>
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+        <line x1="1" y1="12" x2="3" y2="12"></line>
+        <line x1="21" y1="12" x2="23" y2="12"></line>
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+      </svg>
+      <svg
+        class="moon-icon"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        style="display: none"
+      >
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+      </svg>
+    </button>
+
+    <!-- Floating Settings Menu -->
+    <div id="settingsMenu">
+      <div
+        id="mainSettingsBtn"
+        onclick="
+          const p = this.parentElement;
+          p.classList.toggle('open');
+          syncSettings.menuOpen = p.classList.contains('open');
+          saveSync();
+        "
+      >
+        <svg class="main-timer-svg" viewBox="0 0 44 44">
+          <circle
+            cx="22"
+            cy="22"
+            r="21"
+            class="main-timer-path"
+            id="mainSyncPath"
+          />
+        </svg>
+        <span style="position: relative; z-index: 2">⚙</span>
+      </div>
+
+      <div id="menuContent">
+        <!-- Smart Sync -->
+        <div id="autoLang" class="menu-item" title="Auto-Switch Language">
+          <svg class="timer-svg" viewBox="0 0 20 20">
+            <circle
+              cx="10"
+              cy="10"
+              r="7"
+              stroke="rgba(255,255,255,0.1)"
+              stroke-width="2"
+              fill="none"
+            />
+            <path
+              class="timer-path"
+              id="syncPath"
+              d="M10 3 a 7 7 0 0 1 0 14 a 7 7 0 0 1 0 -14"
+            />
+          </svg>
+          <span>SYNC</span>
+
+          <div id="syncSettings" onclick="event.stopPropagation()">
+            <div class="s-row">
+              <span>Start Lang</span>
+              <div>
+                <button class="s-btn active" id="s-en">EN</button>
+                <button class="s-btn" id="s-ar">AR</button>
+              </div>
+            </div>
+            <div class="s-row">
+              <span>Time (s)</span>
+              <input
+                type="range"
+                id="s-time"
+                min="3"
+                max="15"
+                value="5"
+                style="width: 60px"
+              />
+              <span id="v-time">5s</span>
+            </div>
+            <div class="s-row">
+              <span>Mode</span>
+              <button class="s-btn" id="s-loop">Loop</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Language Toggle -->
+        <div
+          id="langToggle"
+          class="menu-item"
+          data-i18n-attr="title:ui.toggleLang"
+        >
+          <div id="langSlider"></div>
+          <button class="lang-opt active" id="optEn">EN</button>
+          <button class="lang-opt" id="optAr">ع</button>
+        </div>
+      </div>
+    </div>
+    <button id="btnFullscreen" data-i18n-attr="title:ui.toggleFS">
+      <svg id="fsIcon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M3 3h6v2H5v4H3V3zm12 0h6v6h-2V5h-4V3zM3 15h2v4h4v2H3v-6zm16 4h-4v2h6v-6h-2v4z"
+        />
+      </svg>
+    </button>
+
+    <div id="deck">
+      <!-- S1: Hook -->
+      <div class="slide center" id="s1">
+        <div class="bg-word">AI</div>
+        <div
+          style="
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+          "
+        >
+          <span class="label anim" data-i18n="slides.s1.label"></span>
+          <div class="redline lg anim"></div>
+          <div
+            class="mega anim"
+            style="text-align: center"
+            data-i18n="slides.s1.mega"
+          ></div>
+        </div>
+        <div class="slide-num"></div>
+      </div>
+
+      <!-- S2: You're competing with people who use it better -->
+      <div class="slide center" id="s2">
+        <div class="grid-bg"></div>
+        <div
+          style="
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 60px;
+            width: 100%;
+            max-width: 1100px;
+          "
+        >
+          <span class="label anim" data-i18n="slides.s2.label"></span>
+          <div class="split anim">
+            <div class="vs-circle">VS</div>
+            <div class="col left-col">
+              <div class="col-label" data-i18n="slides.s2.leftLabel"></div>
+              <div class="col-text" data-i18n="slides.s2.leftText"></div>
+            </div>
+            <div class="col right-col">
+              <div class="col-label" data-i18n="slides.s2.rightLabel"></div>
+              <div class="col-text" data-i18n="slides.s2.rightText"></div>
+            </div>
+          </div>
+          <div
+            class="label anim"
+            style="
+              color: var(--red);
+              letter-spacing: 0.4em;
+              font-weight: 500;
+              font-size: clamp(16px, 2vw, 24px);
+            "
+            data-i18n="slides.s2.caption"
+          ></div>
+        </div>
+        <div class="slide-num"></div>
+      </div>
+
+      <!-- S3: Reality Check — light slide -->
+      <div class="slide center" id="s3" data-inverse="true">
+        <span class="label anim muted" data-i18n="slides.s3.label"></span>
+        <div class="redline anim"></div>
+        <div
+          class="mega anim"
+          style="font-size: clamp(60px, 10vw, 140px)"
+          data-i18n="slides.s3.mega"
+        ></div>
+        <div class="slide-num" style="color: #bbb"></div>
+      </div>
+
+      <!-- S4: The Trap -->
+      <div class="slide center" id="s4">
+        <span class="label anim" data-i18n="slides.s4.label"></span>
+        <div class="redline anim"></div>
+        <div
+          class="super anim"
+          style="color: var(--amber)"
+          data-i18n="slides.s4.super"
+        ></div>
+        <div class="loop anim">
+          <div class="loop-item" data-i18n="slides.s4.loop.0"></div>
+          <div class="loop-arrow">→</div>
+          <div class="loop-item" data-i18n="slides.s4.loop.1"></div>
+          <div class="loop-arrow">→</div>
+          <div class="loop-item" data-i18n="slides.s4.loop.2"></div>
+          <div class="loop-arrow">→</div>
+          <div class="loop-item" data-i18n="slides.s4.loop.3"></div>
+          <div class="loop-arrow">↻</div>
+        </div>
+        <div class="slide-num"></div>
+      </div>
+
+      <!-- S5: Fake progress -->
+      <div class="slide center" id="s5">
+        <div class="quote anim" data-i18n="slides.s5.quote"></div>
+        <div class="bar-wrap anim">
+          <div class="bar-fill"></div>
+          <div class="bar-label" data-i18n="slides.s5.barLabel"></div>
+        </div>
+        <div
+          class="mono-sm anim"
+          style="margin-top: 56px"
+          data-i18n="slides.s5.mono"
+        ></div>
+        <div class="slide-num"></div>
+      </div>
+
+      <!-- S6: Tools ≠ Advantage -->
+      <div class="slide center" id="s6">
+        <span class="label anim" data-i18n="slides.s6.label"></span>
+        <div class="redline anim"></div>
+        <div class="eq-row anim">
+          <div class="super" data-i18n="slides.s6.left"></div>
+          <div class="eq-sym">≠</div>
+          <div class="super" data-i18n="slides.s6.right"></div>
+        </div>
+        <div
+          class="body-text anim"
+          style="margin-top: 32px"
+          data-i18n="slides.s6.body"
+        ></div>
+        <div class="slide-num"></div>
+      </div>
+
+      <!-- S7: Leverage = Advantage -->
+      <div class="slide center" id="s7">
+        <div class="eq-row anim">
+          <div
+            class="super"
+            style="color: var(--red)"
+            data-i18n="slides.s7.left"
+          ></div>
+          <div
+            class="eq-sym"
+            style="color: var(--white); font-size: clamp(40px, 6vw, 80px)"
+          >
+            =
+          </div>
+          <div
+            class="super"
+            style="color: var(--amber)"
+            data-i18n="slides.s7.right"
+          ></div>
+        </div>
+        <div class="chart anim">
+          <div class="bar" style="height: 30%"></div>
+          <div class="bar" style="height: 35%"></div>
+          <div class="bar" style="height: 40%"></div>
+          <div class="bar" style="height: 55%"></div>
+          <div class="bar" style="height: 70%"></div>
+          <div class="bar" style="height: 100%"></div>
+        </div>
+        <div
+          class="quote anim"
+          style="font-size: clamp(16px, 2vw, 24px); margin-top: 24px"
+          data-i18n="slides.s7.quote"
+        ></div>
+        <div class="slide-num"></div>
+      </div>
+
+      <!-- S8: Formula -->
+      <div class="slide center" id="s8">
+        <span class="label anim" data-i18n="slides.s8.label"></span>
+        <div class="redline anim"></div>
+        <div class="formula anim">
+          <div class="frac">
+            <span class="frac-top" data-i18n="slides.s8.fracTop"></span>
+            <div class="frac-line"></div>
+            <span class="frac-bot" data-i18n="slides.s8.fracBot"></span>
+          </div>
+          <div class="f-eq">=</div>
+          <div class="f-result" data-i18n="slides.s8.result"></div>
+        </div>
+        <div
+          class="body-text anim"
+          style="margin-top: 40px"
+          data-i18n="slides.s8.body"
+        ></div>
+        <div class="slide-num"></div>
+      </div>
+
+      <!-- S9: Problem -->
+      <div class="slide left" id="s9">
+        <span class="label anim" data-i18n="slides.s9.label"></span>
+        <div class="redline anim"></div>
+        <div class="super anim" data-i18n="slides.s9.super"></div>
+        <div class="chaos anim">
+          <div
+            class="chaos-item"
+            style="--r: 0"
+            data-i18n="slides.s9.chaos.0"
+          ></div>
+          <div
+            class="chaos-item"
+            style="--r: 1"
+            data-i18n="slides.s9.chaos.1"
+          ></div>
+          <div
+            class="chaos-item"
+            style="--r: 2"
+            data-i18n="slides.s9.chaos.2"
+          ></div>
+          <div
+            class="chaos-item"
+            style="--r: 3"
+            data-i18n="slides.s9.chaos.3"
+          ></div>
+          <div
+            class="chaos-item"
+            style="--r: 4"
+            data-i18n="slides.s9.chaos.4"
+          ></div>
+          <div
+            class="chaos-item"
+            style="--r: 5"
+            data-i18n="slides.s9.chaos.5"
+          ></div>
+          <div
+            class="chaos-item"
+            style="--r: 0"
+            data-i18n="slides.s9.chaos.6"
+          ></div>
+        </div>
+        <div class="slide-num"></div>
+      </div>
+
+      <!-- S10: Wrong approach -->
+      <div class="slide center" id="s10">
+        <div
+          class="super anim"
+          style="color: var(--red)"
+          data-i18n="slides.s10.super"
+        ></div>
+        <div class="wrong-grid anim">
+          <div class="ai-badge" data-i18n="slides.s10.badges.0"></div>
+          <div class="ai-badge" data-i18n="slides.s10.badges.1"></div>
+          <div class="ai-badge" data-i18n="slides.s10.badges.2"></div>
+          <div class="ai-badge" data-i18n="slides.s10.badges.3"></div>
+          <div class="ai-badge" data-i18n="slides.s10.badges.4"></div>
+          <div class="ai-badge" data-i18n="slides.s10.badges.5"></div>
+          <div class="ai-badge" data-i18n="slides.s10.badges.6"></div>
+          <div class="ai-badge" data-i18n="slides.s10.badges.7"></div>
+          <div class="ai-badge" data-i18n="slides.s10.badges.8"></div>
+          <div class="ai-badge" data-i18n="slides.s10.badges.9"></div>
+        </div>
+        <div
+          class="mono-sm anim"
+          style="margin-top: 24px; color: rgba(232, 52, 26, 0.4)"
+          data-i18n="slides.s10.mono"
+        ></div>
+        <div class="slide-num"></div>
+      </div>
+
+      <!-- S11: Right -->
+      <div class="slide center" id="s11">
+        <div
+          class="super anim"
+          style="color: var(--amber)"
+          data-i18n="slides.s11.super"
+        ></div>
+        <div class="flow anim">
+          <div class="f-node" data-i18n="slides.s11.nodes.0"></div>
+          <div class="f-arrow"></div>
+          <div class="f-node" data-i18n="slides.s11.nodes.1"></div>
+          <div class="f-arrow"></div>
+          <div class="f-node highlight">
+            <div
+              class="highlight-label"
+              data-i18n="slides.s11.highlightLabel"
+            ></div>
+            <span data-i18n="slides.s11.highlight"></span>
+          </div>
+          <div class="f-arrow"></div>
+          <div class="f-node" data-i18n="slides.s11.nodes.2"></div>
+        </div>
+        <div class="slide-num"></div>
+      </div>
+
+      <!-- S12: Before/After -->
+      <div class="slide center" id="s12">
+        <span class="label anim" data-i18n="slides.s12.label"></span>
+        <div class="redline anim"></div>
+        <div class="metrics anim">
+          <div class="metric">
+            <div class="m-num before">1×</div>
+            <div class="m-label" data-i18n="slides.s12.beforeLabel"></div>
+          </div>
+          <div class="divider"></div>
+          <div class="metric">
+            <div class="m-num after">10×</div>
+            <div class="m-label" data-i18n="slides.s12.afterLabel"></div>
+          </div>
+        </div>
+        <div
+          class="quote anim"
+          style="font-size: clamp(16px, 2vw, 26px); margin-top: 40px"
+          data-i18n="slides.s12.quote"
+        ></div>
+        <div class="slide-num"></div>
+      </div>
+
+      <!-- S13: Framework -->
+      <div class="slide center" id="s13">
+        <span class="label anim" data-i18n="slides.s13.label"></span>
+        <div class="redline anim"></div>
+        <div
+          class="mega anim"
+          style="font-size: clamp(48px, 7vw, 96px)"
+          data-i18n="slides.s13.mega"
+        ></div>
+        <div class="flow3 anim">
+          <div class="f3-item">
+            <div class="f3-word" data-i18n="slides.s13.steps.0.word"></div>
+            <div class="f3-sub" data-i18n="slides.s13.steps.0.sub"></div>
+          </div>
+          <div class="f3-arr">→</div>
+          <div class="f3-item">
+            <div class="f3-word" data-i18n="slides.s13.steps.1.word"></div>
+            <div class="f3-sub" data-i18n="slides.s13.steps.1.sub"></div>
+          </div>
+          <div class="f3-arr">→</div>
+          <div class="f3-item">
+            <div class="f3-word" data-i18n="slides.s13.steps.2.word"></div>
+            <div class="f3-sub" data-i18n="slides.s13.steps.2.sub"></div>
+          </div>
+        </div>
+        <div class="slide-num"></div>
+      </div>
+
+      <!-- S14: Challenge — light -->
+      <div class="slide center" id="s14" data-inverse="true">
+        <span
+          class="label anim"
+          style="color: #888 !important"
+          data-i18n="slides.s14.label"
+        ></span>
+        <div class="redline anim"></div>
+        <div
+          class="mega anim"
+          style="font-size: clamp(52px, 9vw, 120px)"
+          data-i18n="slides.s14.mega"
+        ></div>
+        <div
+          class="mono-sm anim"
+          style="margin-top: 24px; color: #888 !important"
+          data-i18n="slides.s14.mono"
+        ></div>
+        <div class="eye"></div>
+        <div class="slide-num" style="color: #999"></div>
+      </div>
+
+      <!-- S15: Closing -->
+      <div class="slide center" id="s15">
+        <div class="diverge">
+          <div class="path-a"></div>
+          <div class="path-b"></div>
+        </div>
+        <div
+          style="
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+            text-align: center;
+          "
+        >
+          <span class="label anim" data-i18n="slides.s15.label"></span>
+          <div class="redline lg anim"></div>
+          <div
+            class="mega anim"
+            style="font-size: clamp(52px, 9vw, 120px)"
+            data-i18n="slides.s15.mega"
+          ></div>
+          <div
+            class="body-text anim"
+            style="margin-top: 8px; text-align: center"
+            data-i18n="slides.s15.body"
+          ></div>
+        </div>
+        <div class="slide-num"></div>
+      </div>
+    </div>
+    <!-- end deck -->
+
+    <!-- Nav dots -->
+    <div id="nav"></div>
+
+    <!-- Arrow buttons -->
+    <div id="arrows">
+      <button class="arr-btn" id="btnPrev">←</button>
+      <button class="arr-btn" id="btnNext">→</button>
+    </div>
+
+    <script>
+      // ── State ──────────────────────────────────────────────
+      const TOTAL = 15;
+      let current = parseInt(localStorage.getItem("pref-slide")) || 0;
+      let currentLang = localStorage.getItem("pref-lang") || "en";
+      let slideLangs =
+        JSON.parse(localStorage.getItem("pref-slide-langs")) ||
+        Array(TOTAL).fill("en");
+      let translations = {};
+
+      let syncSettings = JSON.parse(localStorage.getItem("pref-sync")) || {
+        startLang: "en",
+        interval: 5000,
+        loop: false,
+        enabled: true,
+        menuOpen: false,
+      };
+
+      async function loadTranslations() {
+        try {
+          const [en, ar] = await Promise.all([
+            fetch("en.json").then((res) => res.json()),
+            fetch("ar.json").then((res) => res.json()),
+          ]);
+          translations = { en, ar };
+          // Apply initial languages to all slides
+          for (let i = 0; i < TOTAL; i++) {
+            applyLang(slideLangs[i], true, slides[i]);
+          }
+          // Apply global UI language based on current slide
+          applyLang(slideLangs[current], true, document.body);
+        } catch (err) {
+          console.error("Failed to load translations:", err);
+        }
+      }
+
+      function getNestedValue(obj, path) {
+        return path
+          .split(".")
+          .reduce((prev, curr) => (prev ? prev[curr] : null), obj);
+      }
+
+      // ── Elements ───────────────────────────────────────────
+      const slides = document.querySelectorAll(".slide");
+      const nav = document.getElementById("nav");
+      const prog = document.getElementById("progress");
+      const flash = document.getElementById("flash");
+      const cursor = document.getElementById("cursor");
+
+      // ── Dots ───────────────────────────────────────────────
+      for (let i = 0; i < TOTAL; i++) {
+        const d = document.createElement("div");
+        d.className = "dot";
+        d.addEventListener("click", () => goTo(i));
+        nav.appendChild(d);
+      }
+
+      // ── Go to slide ────────────────────────────────────────
+      async function goTo(idx) {
+        if (idx < 0 || idx >= TOTAL) return;
+
+        // Smart UI Inversion
+        const isInverse = slides[idx].getAttribute("data-inverse") === "true";
+        document.body.classList.toggle("invert-ui", isInverse);
+
+        // 0. Wait for fonts to be ready before starting animations
+        if (document.fonts) {
+          await document.fonts.ready;
+        }
+
+        // 1. Initial State
+        slides[current].classList.remove("active");
+
+        slides[idx].querySelectorAll(".anim").forEach((el) => {
+          el.style.animation = "none";
+          el.offsetHeight;
+          el.style.animation = "";
+        });
+        // re-trigger bar animations on s7
+        if (idx === 6) {
+          slides[idx].querySelectorAll(".bar").forEach((b) => {
+            b.style.animation = "none";
+            b.offsetHeight;
+            b.style.animation = "";
+          });
+        }
+        current = idx;
+        localStorage.setItem("pref-slide", current);
+        slides[current].classList.add("active");
+        updateNav();
+      }
+
+      function flashEffect() {
+        flash.classList.add("on");
+        setTimeout(() => flash.classList.remove("on"), 100);
+      }
+
+      function updateNav() {
+        document
+          .querySelectorAll(".dot")
+          .forEach((d, i) => d.classList.toggle("on", i === current));
+        prog.style.width = ((current + 1) / TOTAL) * 100 + "%";
+      }
+
+      // ── Init ───────────────────────────────────────────────
+      loadTranslations().then(() => {
+        if (autoBtn.classList.contains("active")) {
+          resetSyncCycle();
+        }
+      });
+      goTo(current);
+
+      // ── Keyboard ───────────────────────────────────────────
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowRight" || e.key === "ArrowDown" || e.key === " ") {
+          e.preventDefault();
+          goTo(current + 1);
+        }
+        if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
+          e.preventDefault();
+          goTo(current - 1);
+        }
+      });
+
+      // ── Buttons ────────────────────────────────────────────
+      document
+        .getElementById("btnNext")
+        .addEventListener("click", () => goTo(current + 1));
+      document
+        .getElementById("btnPrev")
+        .addEventListener("click", () => goTo(current - 1));
+
+      // ── Fullscreen ─────────────────────────────────────────
+      const btnFS = document.getElementById("btnFullscreen");
+      const fsIcon = document.getElementById("fsIcon");
+
+      const enterIcon = `<path d="M3 3h6v2H5v4H3V3zm12 0h6v6h-2V5h-4V3zM3 15h2v4h4v2H3v-6zm16 4h-4v2h6v-6h-2v4z"/>`;
+      const exitIcon = `<path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z"/>`;
+
+      function updateFsIcon() {
+        fsIcon.innerHTML = document.fullscreenElement ? exitIcon : enterIcon;
+      }
+
+      btnFS.addEventListener("click", () => {
+        if (!document.fullscreenElement) {
+          document.documentElement.requestFullscreen().catch(() => {});
+        } else {
+          document.exitFullscreen().catch(() => {});
+        }
+      });
+      document.addEventListener("fullscreenchange", updateFsIcon);
+
+      // ── Cursor ─────────────────────────────────────────────
+      document.addEventListener("mousemove", (e) => {
+        cursor.style.left = e.clientX + "px";
+        cursor.style.top = e.clientY + "px";
+      });
+      document.querySelectorAll("button, .dot").forEach((el) => {
+        el.addEventListener("mouseenter", () => cursor.classList.add("big"));
+        el.addEventListener("mouseleave", () => cursor.classList.remove("big"));
+      });
+
+      // ── Language Toggle ────────────────────────────────────
+      const body = document.body;
+      const optEn = document.getElementById("optEn");
+      const optAr = document.getElementById("optAr");
+      const btnPrev = document.getElementById("btnPrev");
+      const btnNext = document.getElementById("btnNext");
+
+      body.classList.add("en");
+
+      function applyLang(lang, instant = false, container = document.body) {
+        return new Promise((resolve) => {
+          if (!translations[lang]) return resolve();
+          const isAr = lang === "ar";
+          const data = translations[lang];
+
+          function applyClasses() {
+            const slideIdx = Array.from(slides).indexOf(container);
+            if (slideIdx !== -1) {
+              slideLangs[slideIdx] = lang;
+              localStorage.setItem(
+                "pref-slide-langs",
+                JSON.stringify(slideLangs),
+              );
+              container.classList.remove("en", "ar");
+              container.classList.add(lang);
+            } else if (container === document.body) {
+              slides.forEach((slide, idx) => {
+                slideLangs[idx] = lang;
+                slide.classList.remove("en", "ar");
+                slide.classList.add(lang);
+              });
+              localStorage.setItem(
+                "pref-slide-langs",
+                JSON.stringify(slideLangs),
+              );
+            }
+          }
+
+          // Skip animation if already in target language (only for global body)
+          if (container === document.body && lang === currentLang && !instant) {
+            performSwap();
+            return;
+          }
+
+          function performSwap() {
+            return document.fonts.ready.then(() => {
+              applyClasses();
+
+              // 1. Update elements with data-i18n INSIDE container
+              container.querySelectorAll("[data-i18n]").forEach((el) => {
+                const key = el.getAttribute("data-i18n");
+                let val = getNestedValue(data, key);
+
+                if (val !== null) {
+                  if (key === "slideNum") {
+                    const n = el.getAttribute("data-n") || current + 1;
+                    val = val.replace("{n}", isAr ? toArabicNumerals(n) : n);
+                  }
+
+                  if (instant) {
+                    el.innerHTML = val;
+                  } else {
+                    revealText(el, val);
+                  }
+                }
+              });
+
+              // Update slide number for THIS slide if it's a slide-level update
+              if (
+                container !== document.body &&
+                container.classList.contains("slide")
+              ) {
+                updateSlideNumbers(lang, container);
+              }
+
+              // 1b. Update elements with data-i18n-attr INSIDE container
+              container.querySelectorAll("[data-i18n-attr]").forEach((el) => {
+                const attrMapping = el
+                  .getAttribute("data-i18n-attr")
+                  .split(":");
+                const attr = attrMapping[0];
+                const key = attrMapping[1];
+                const val = getNestedValue(data, key);
+                if (val !== null) el.setAttribute(attr, val);
+              });
+
+              // 2. Global-only updates
+              if (container === document.body) {
+                updateSlideNumbers(lang, document.body);
+                const hint = document.getElementById("hint");
+                if (hint && data.hint) hint.innerHTML = data.hint;
+
+                document.documentElement.lang = lang;
+                // Document direction can stay global but we only update it if absolutely necessary
+                // Most UI elements are already forced to LTR
+                document.documentElement.dir =
+                  data.dir || (isAr ? "rtl" : "ltr");
+                body.classList.remove("en", "ar");
+                body.classList.add(lang);
+
+                btnPrev.textContent = "←";
+                btnNext.textContent = "→";
+
+                optEn.classList.toggle("active", !isAr);
+                optAr.classList.toggle("active", isAr);
+
+                currentLang = lang;
+                localStorage.setItem("pref-lang", lang);
+              }
+              resolve();
+            }); // End of fonts.ready.then
+          }
+
+          if (instant) {
+            performSwap();
+          } else {
+            if (container === document.body)
+              body.classList.add("lang-switching");
+            const scan = document.getElementById("scanline");
+            if (container === document.body) scan.classList.add("active");
+
+            setTimeout(() => {
+              performSwap().then(() => {
+                if (container === document.body) {
+                  body.classList.remove("lang-switching");
+                  body.classList.add("lang-switched");
+                  setTimeout(() => {
+                    body.classList.remove("lang-switched");
+                    scan.classList.remove("active");
+                  }, 500);
+                }
+              });
+            }, 200);
+          }
+        }); // End of new Promise
+      }
+
+      function revealText(el, targetHTML) {
+        el.style.filter = "blur(10px) brightness(2)";
+        el.style.opacity = "0";
+
+        setTimeout(() => {
+          el.innerHTML = targetHTML;
+          el.style.transition = "all 0.4s cubic-bezier(0.19, 1, 0.22, 1)";
+          el.style.filter = "blur(0) brightness(1)";
+          el.style.opacity = "1";
+        }, 50);
+      }
+
+      function toArabicNumerals(n) {
+        return n.toString().replace(/\d/g, (d) => "٠١٢٣٤٥٦٧٨٩"[d]);
+      }
+
+      function updateSlideNumbers(lang, container = document.body) {
+        const isAr = lang === "ar";
+        const template = translations[lang].slideNum;
+
+        // If container is a specific slide, only update that slide's number
+        if (
+          container !== document.body &&
+          container.classList.contains("slide")
+        ) {
+          const idx = Array.from(slides).indexOf(container);
+          const el = container.querySelector(".slide-num");
+          if (el) {
+            const n = isAr ? toArabicNumerals(idx + 1) : idx + 1;
+            el.innerHTML = template.replace("{n}", n);
+          }
+          return;
+        }
+
+        // Otherwise update all (used on initial load or manual global toggle)
+        document.querySelectorAll(".slide-num").forEach((el, i) => {
+          const n = isAr ? toArabicNumerals(i + 1) : i + 1;
+          el.innerHTML = template.replace("{n}", n);
+        });
+      }
+
+      function manualToggle(targetLang) {
+        if (currentLang === targetLang) return;
+        Promise.all([
+          applyLang(targetLang, false, slides[current]),
+          applyLang(targetLang, false, document.body),
+        ]);
+      }
+
+      optEn.addEventListener("click", () => manualToggle("en"));
+      optAr.addEventListener("click", () => manualToggle("ar"));
+
+      // Make cursor big on lang toggle hover
+      document.querySelectorAll("#langToggle .lang-opt").forEach((el) => {
+        el.addEventListener("mouseenter", () => cursor.classList.add("big"));
+        el.addEventListener("mouseleave", () => cursor.classList.remove("big"));
+      });
+
+      // Touch swipe — respect RTL direction
+      let tx = 0;
+      document.addEventListener(
+        "touchstart",
+        (e) => (tx = e.touches[0].clientX),
+        { passive: true },
+      );
+      document.addEventListener("touchend", (e) => {
+        const dx = e.changedTouches[0].clientX - tx;
+        if (Math.abs(dx) > 50) {
+          const forward = dx < 0; // Swipe left always advances
+          goTo(forward ? current + 1 : current - 1);
+        }
+      });
+      // ── Smart Language Sync ─────────────────────────────
+      let autoTimer = null;
+      const autoBtn = document.getElementById("autoLang");
+      const syncPath = document.getElementById("syncPath");
+      const mainSyncPath = document.getElementById("mainSyncPath");
+
+      // Set initial UI state from syncSettings
+      if (syncSettings.enabled) autoBtn.classList.add("active");
+      if (syncSettings.menuOpen)
+        document.getElementById("settingsMenu").classList.add("open");
+
+      function saveSync() {
+        localStorage.setItem("pref-sync", JSON.stringify(syncSettings));
+      }
+
+      // UI elements for settings
+      const sEn = document.getElementById("s-en");
+      const sAr = document.getElementById("s-ar");
+      const sTime = document.getElementById("s-time");
+      const vTime = document.getElementById("v-time");
+      const sLoop = document.getElementById("s-loop");
+
+      // Initialize UI values
+      sEn.classList.toggle("active", syncSettings.startLang === "en");
+      sAr.classList.toggle("active", syncSettings.startLang === "ar");
+      sTime.value = syncSettings.interval / 1000;
+      vTime.textContent = syncSettings.interval / 1000 + "s";
+      sLoop.classList.toggle("active", syncSettings.loop);
+
+      sEn.onclick = () => {
+        syncSettings.startLang = "en";
+        sEn.classList.add("active");
+        sAr.classList.remove("active");
+        saveSync();
+      };
+      sAr.onclick = () => {
+        syncSettings.startLang = "ar";
+        sAr.classList.add("active");
+        sEn.classList.remove("active");
+        saveSync();
+      };
+      sTime.oninput = () => {
+        syncSettings.interval = sTime.value * 1000;
+        vTime.textContent = sTime.value + "s";
+        saveSync();
+      };
+      sLoop.onclick = () => {
+        syncSettings.loop = !syncSettings.loop;
+        sLoop.classList.toggle("active", syncSettings.loop);
+        saveSync();
+      };
+
+      const currentTheme = localStorage.getItem("pref-theme") || "dark";
+      if (currentTheme === "light") body.classList.add("light-mode");
+
+      const themeToggleBtn = document.getElementById("themeToggleBtn");
+      themeToggleBtn.addEventListener("click", () => {
+        const isLight = body.classList.toggle("light-mode");
+        localStorage.setItem("pref-theme", isLight ? "light" : "dark");
+      });
+
+      autoBtn.addEventListener("click", () => {
+        const isActive = autoBtn.classList.toggle("active");
+        syncSettings.enabled = isActive;
+        saveSync();
+        if (isActive) {
+          resetSyncCycle();
+        } else {
+          stopAutoSync();
+        }
+      });
+
+      function resetSyncCycle() {
+        stopAutoSync();
+        if (!autoBtn.classList.contains("active")) return;
+
+        // Sync the global UI only if it differs from the desired start language
+        if (currentLang !== syncSettings.startLang) {
+          applyLang(syncSettings.startLang, true, document.body);
+        }
+
+        startAutoSync();
+      }
+
+      function startAutoSync() {
+        if (autoTimer) clearTimeout(autoTimer);
+
+        // Clear animations instantly
+        syncPath.style.animation = "none";
+        mainSyncPath.style.animation = "none";
+
+        // Force reset of stroke-dashoffset
+        syncPath.style.strokeDashoffset = "44";
+        mainSyncPath.style.strokeDashoffset = "132";
+
+        // Wait for two frames to ensure the browser registers the reset
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            if (!autoBtn.classList.contains("active")) return;
+
+            syncPath.style.animation = `autoTime ${syncSettings.interval}ms linear forwards`;
+            mainSyncPath.style.animation = `mainAutoTime ${syncSettings.interval}ms linear forwards`;
+
+            autoTimer = setTimeout(() => {
+              const nextLang = currentLang === "en" ? "ar" : "en";
+
+              Promise.all([
+                applyLang(nextLang, false, slides[current]),
+                applyLang(nextLang, false, document.body),
+              ]).then(() => {
+                if (syncSettings.loop) {
+                  startAutoSync();
+                } else {
+                  stopAutoSync();
+                }
+              });
+            }, syncSettings.interval);
+          });
+        });
+      }
+
+      function stopAutoSync() {
+        clearTimeout(autoTimer);
+        autoTimer = null;
+        syncPath.style.animation = "none";
+        mainSyncPath.style.animation = "none";
+        body.classList.remove("lang-switching", "lang-switched");
+        document.getElementById("scanline").classList.remove("active");
+      }
+
+      // Stop auto sync on manual interaction
+      [optEn, optAr].forEach((btn) => {
+        btn.addEventListener("click", () => {
+          if (autoTimer) {
+            autoBtn.classList.remove("active");
+            stopAutoSync();
+          }
+        });
+      });
+
+      // Re-initialize goTo to include sync reset
+      const originalGoTo = goTo;
+      window.goTo = (idx) => {
+        if (idx < 0 || idx >= TOTAL) return;
+
+        if (autoBtn.classList.contains("active")) {
+          const targetLang = syncSettings.startLang;
+
+          // 1. Prepare target slide content SILENTLY (Scoped to slide only)
+          // This has ZERO effect on the current slide or global layout.
+          if (slideLangs[idx] !== targetLang) {
+            applyLang(targetLang, true, slides[idx]);
+          }
+
+          flashEffect();
+
+          setTimeout(() => {
+            // 2. Only update the Global UI language at peak flash
+            // This handles the language switcher and navigation hints.
+            if (currentLang !== targetLang) {
+              applyLang(targetLang, true, document.body);
+            }
+            originalGoTo(idx);
+
+            stopAutoSync();
+            startAutoSync();
+          }, 50);
+        } else {
+          originalGoTo(idx);
+        }
+      };
+    </script>
+  </body>
+</html>

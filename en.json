@@ -1,0 +1,115 @@
+{
+  "dir": "ltr",
+  "slideNum": "{n} / 15",
+  "hint": "→ ARROW KEYS TO ADVANCE",
+  "ui": {
+    "toggleLang": "Switch language",
+    "toggleFS": "Toggle Fullscreen"
+  },
+  "slides": {
+    "s1": {
+      "label": "Chapter 01 — The Illusion of Safety",
+      "mega": "You're not<br>competing<br>with AI."
+    },
+    "s2": {
+      "label": "The Real Competition",
+      "leftLabel": "The Myth",
+      "leftText": "Machine",
+      "rightLabel": "The Reality",
+      "rightText": "Engineer<br>who uses it<br>better",
+      "caption": "The second one is the real threat."
+    },
+    "s3": {
+      "label": "Chapter 02 — The Wrong Game",
+      "mega": "Same tools.<br>Different<br>outcomes."
+    },
+    "s4": {
+      "label": "The Trap",
+      "super": "Tutorials.<br>Courses.<br>Tools.",
+      "loop": ["Learn", "Build", "Follow", "Repeat"]
+    },
+    "s5": {
+      "quote": "\"Learning tools feels productive.<br><em>It's often just comfortable.</em>\"",
+      "barLabel": "92% — LEARNING...",
+      "mono": "PROGRESS: COMFORTABLE ≠ PROGRESS: REAL"
+    },
+    "s6": {
+      "label": "Chapter 03 — The Leverage Gap",
+      "left": "Tools",
+      "right": "Advantage",
+      "body": "Tools are accessible to everyone.<br>Leverage is scarce."
+    },
+    "s7": {
+      "left": "Leverage",
+      "right": "Advantage",
+      "quote": "\"Two engineers. Same tools.<br><em>One builds features. The other builds outcomes.</em>\""
+    },
+    "s8": {
+      "label": "The Definition",
+      "fracTop": "Output",
+      "fracBot": "Effort",
+      "result": "Leverage",
+      "body": "\"AI is not your advantage.<br><em>It's your amplifier.</em>\""
+    },
+    "s9": {
+      "label": "Chapter 04 — The Real Battlefield",
+      "super": "Problem:<br>Scaling ops",
+      "chaos": [
+        "content creation",
+        "pricing logic",
+        "onboarding flow",
+        "listings at scale",
+        "support triage",
+        "data pipelines",
+        "review parsing"
+      ]
+    },
+    "s10": {
+      "super": "Wrong:<br>Add AI<br>everywhere.",
+      "badges": [
+        "AI #1",
+        "AI #2",
+        "AI #3",
+        "AI #4",
+        "AI #5",
+        "AI #6",
+        "AI #7",
+        "AI #8",
+        "AI #9",
+        "AI #10"
+      ],
+      "mono": "result: chaos. useless features. zero impact."
+    },
+    "s11": {
+      "super": "Right:<br>Fix one<br>bottleneck.",
+      "nodes": ["Input", "Process", "Output"],
+      "highlight": "Bottleneck",
+      "highlightLabel": "▲ FIX THIS"
+    },
+    "s12": {
+      "label": "AI → Result",
+      "beforeLabel": "Before",
+      "afterLabel": "After leverage",
+      "quote": "\"The market doesn't reward knowledge.<br><em>It rewards outcomes.</em>\""
+    },
+    "s13": {
+      "label": "Chapter 05 — The New Rulebook",
+      "mega": "The Model",
+      "steps": [
+        { "word": "Problem", "sub": "identify it" },
+        { "word": "Leverage", "sub": "apply AI here" },
+        { "word": "Value", "sub": "measure it" }
+      ]
+    },
+    "s14": {
+      "label": "Chapter 06 — The Separation",
+      "mega": "What problem<br>are you<br>solving?",
+      "mono": "You don't need more tutorials.<br>You need better problems."
+    },
+    "s15": {
+      "label": "The Gap Is Already Forming",
+      "mega": "The gap<br>is already<br>forming.",
+      "body": "\"The competition is no longer<br>human vs machine.<br>It's <em>human vs leveraged human.</em>\""
+    }
+  }
+}
